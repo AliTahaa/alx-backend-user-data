@@ -57,7 +57,8 @@ def main():
     logger = get_logger()
 
     for r in cursor:
-        str_row = ''.join(f'{f}={str(r)}; ' for r, f in zip(r, user_field_names))
+        str_row = ''.join(f'{f}={str(r)}; ' for r, f in zip(r,
+                                                            user_field_names))
         logger.info(str_row.strip())
 
     cursor.close()
