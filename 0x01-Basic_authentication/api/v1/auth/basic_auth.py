@@ -14,27 +14,23 @@ UserType = TypeVar('User')
 
 
 class BasicAuth(Auth):
-    """Basic authentication class.
-    """
+    """ Basic authentication """
     def extract_base64_authorization_header(
             self,
             authorization_header: str) -> str:
-        """Extracts the Base64 part of the Authorization header
-        for a Basic Authentication.
-        """
+        """Extracts the Base64 part """
         if type(authorization_header) is str:
-            pattern = r'Basic (?P<token>.+)'
-            field_match = re.fullmatch(pattern, authorization_header.strip())
-            if field_match is not None:
-                return field_match.group('token')
+            patt = r'Basic (?P<token>.+)'
+            f_match = re.fullmatch(patt, authorization_header.strip())
+            if f_match is not None:
+                return f_match.group('token')
         return None
 
     def decode_base64_authorization_header(
             self,
             base64_authorization_header: str,
             ) -> str:
-        """Decodes a base64-encoded authorization header.
-        """
+        """Decodes a base64-encoded """
         if type(base64_authorization_header) is str:
             try:
                 res = base64.b64decode(
@@ -49,18 +45,16 @@ class BasicAuth(Auth):
             self,
             decoded_base64_authorization_header: str,
             ) -> Tuple[str, str]:
-        """Extracts user credentials from a base64-decoded authorization
-        header that uses the Basic authentication flow.
-        """
+        """Extracts user credentials """
         if type(decoded_base64_authorization_header) is str:
-            pattern = r'(?P<user>[^:]+):(?P<password>.+)'
-            field_match = re.fullmatch(
-                pattern,
+            patt = r'(?P<user>[^:]+):(?P<password>.+)'
+            f_match = re.fullmatch(
+                patt,
                 decoded_base64_authorization_header.strip(),
             )
-            if field_match is not None:
-                user = field_match.group('user')
-                password = field_match.group('password')
+            if f_match is not None:
+                user = f_match.group('user')
+                password = f_match.group('password')
                 return user, password
         return None, None
 
@@ -68,8 +62,7 @@ class BasicAuth(Auth):
             self,
             user_email: str,
             user_pwd: str) -> UserType:
-        """Retrieves a user based on the user's authentication credentials.
-        """
+        """Retrieves a user based """
         if type(user_email) is str and type(user_pwd) is str:
             try:
                 users = User.search({'email': user_email})
@@ -82,8 +75,7 @@ class BasicAuth(Auth):
         return None
 
     def current_user(self, request=None) -> UserType:
-        """Retrieves the user from a request.
-        """
+        """Retrieves the user """
         auth_header = self.authorization_header(request)
         b64_auth_token = self.extract_base64_authorization_header(auth_header)
         auth_token = self.decode_base64_authorization_header(b64_auth_token)
