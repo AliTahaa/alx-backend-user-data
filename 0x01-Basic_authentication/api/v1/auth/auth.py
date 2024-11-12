@@ -8,6 +8,7 @@ import fnmatch
 # Define the TypeVar
 UserType = TypeVar('User')
 
+
 class Auth:
     """Authentication class.
     """
