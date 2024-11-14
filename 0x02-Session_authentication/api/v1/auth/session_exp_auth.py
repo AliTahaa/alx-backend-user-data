@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-""" Module of Expiration of Session Authentication
-"""
+""" Module of Expiration """
 from api.v1.auth.session_auth import SessionAuth
 from datetime import datetime, timedelta
 from models.user import User
