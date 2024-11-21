@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Flask app
-"""
+""" app """
 from auth import Auth
 from flask import Flask, abort, jsonify, request, redirect, url_for
 
@@ -110,8 +108,8 @@ def update_password():
             - reset_token
             - new_password
         Return:
-            - user email and password update message
-            - 403 if reset token is not provided
+            - user email and password
+            - 403 if reset not provided
     """
     email = request.form.get("email")
     new_password = request.form.get("new_password")
