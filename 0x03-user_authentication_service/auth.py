@@ -96,9 +96,9 @@ class Auth:
             user = dbase.find_user_by(email=email)
         except NoResultFound:
             raise ValueError
-        reset_token = _generate_uuid()
-        dbase.update_user(user.id, reset_token=reset_token)
-        return reset_token
+        r_token = _generate_uuid()
+        dbase.update_user(user.id, reset_token=r_token)
+        return r_token
 
     def update_password(self, reset_token: str, password: str) -> None:
         """ Update password for user with matching reset token
