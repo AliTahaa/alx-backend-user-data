@@ -93,27 +93,27 @@ class Auth:
         """
         dbase = self._db
         try:
-            u = dbase.find_user_by(email=email)
+            user = dbase.find_user_by(email=email)
         except NoResultFound:
             raise ValueError
-        r_token = _generate_uuid()
-        dbase.update_user(u.id, reset_token=r_token)
-        return r_token
+        reset_token = _generate_uuid()
+        dbase.update_user(user.id, reset_token=reset_token)
+        return reset_token
 
     def update_password(self, reset_token: str, password: str) -> None:
-        """ Update password
+        """ Update password for user with matching reset token
             Args:
-                - reset_toke
-                - password
+                - reset_toke: user's reset token
+                - password: new password
             Return:
                 - None
         """
-        dbase = self._db
+        db = self._db
         try:
-            u = dbase.find_user_by(reset_token=reset_token)
+            user = db.find_user_by(reset_token=reset_token)
         except NoResultFound:
             raise ValueError
-        dbase.update_user(u.id, hashed_password=_hash_password(password),
+        db.update_user(user.id, hashed_password=_hash_password(password),
                        reset_token=None)
 
 
