@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""DB module
-"""
+""" DB module """
 from sqlalchemy import create_engine, tuple_
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm import sessionmaker
@@ -10,12 +9,10 @@ from user import Base, User
 
 
 class DB:
-    """DB class
-    """
+    """ DB class """
 
     def __init__(self) -> None:
-        """Initialize a new DB instance
-        """
+        """ Initialize a new DB """
         self._engine = create_engine("sqlite:///a.db")
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
@@ -23,21 +20,19 @@ class DB:
 
     @property
     def _session(self) -> Session:
-        """Memoized session object
-        """
+        """ Memoized session """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """ Creates new User instance and
-            saves them to the database.
+        """ Creates new User and saves
             Args:
                 - email
                 - hashed_password
             Return:
-                - new User object
+                - new User
         """
         session = self._session
         try:
@@ -50,12 +45,12 @@ class DB:
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
-        """ Find user by a given attribute
+        """ Find user
             Args:
-                - Dictionary of attributes to use as search
+                - Dictionary of attributes
                   parameters
             Return:
-                - User object
+                - User
         """
 
         attrs, vals = [], []
@@ -73,11 +68,11 @@ class DB:
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
-        """ Searches for user instance using given id parameter
+        """ Searches for user
             Args:
-                - user_id: user's id
+                - user_id:
             Return:
-                - User instance found
+                - User instance
         """
         user = self.find_user_by(id=user_id)
         session = self._session
