@@ -32,10 +32,10 @@ def login():
   passw = request.form.get("password")
   if not AUTH.valid_login(email, passw):
     abort(401)
-  s_id = AUTH.create_session(email)
-  resp = jsonify({"email": email, "message": "logged in"})
-  resp.set_cookie("session_id", s_id)
-  return resp
+  session_id = AUTH.create_session(email)
+  response = jsonify({"email": email, "message": "logged in"})
+  response.set_cookie("session_id", session_id)
+  return response
 
 
 @app.route("/sessions", methods=["DELETE"])
@@ -44,11 +44,11 @@ def logout():
     Returns:
       - redirect to home
   """
-  s_id = request.cookies.get("session_id")
-  u = AUTH.get_user_from_session_id(s_id)
-  if not u:
+  session_id = request.cookies.get("session_id")
+  user = AUTH.get_user_from_session_id(session_id)
+  if not user:
     abort(403)
-  AUTH.destroy_session(u.id)
+  AUTH.destroy_session(user.id)
   return redirect(url_for("home"))
 
 
