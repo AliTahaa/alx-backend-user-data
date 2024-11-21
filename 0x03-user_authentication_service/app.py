@@ -15,7 +15,7 @@ AUTH = Auth()
 def home() -> str:
     """ Home endpoint
         Return:
-            - Logout message JSON represented
+            - Logout message
     """
     return jsonify({"message": "Bienvenue"})
 
@@ -27,8 +27,8 @@ def login():
             - email
             - password
         Return:
-            - user email and login message JSON represented
-            - 401 if credential are invalid
+            - email and login message
+            - 401 if invalid
     """
     email = request.form.get("email")
     password = request.form.get("password")
@@ -74,8 +74,8 @@ def users():
 def profile() -> str:
     """ User profile endpoint
         Return:
-            - user email JSON represented
-            - 403 if session_id is not linked to any user
+            - user email
+            - 403 if session_id is not linked
     """
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
@@ -86,12 +86,12 @@ def profile() -> str:
 
 @app.route("/reset_password", methods=["POST"])
 def get_reset_password_token() -> str:
-    """ Reset password token endpoint
+    """ Reset password endpoint
         Form fields:
             - email
         Return:
-            - email and reset token JSON represented
-            - 403 if email is not associated with any user
+            - email and reset token
+            - 403 if email is not associated
     """
     email = request.form.get("email")
     try:
@@ -110,8 +110,8 @@ def update_password():
             - reset_token
             - new_password
         Return:
-            - user email and password update message JSON represented
-            - 403 if reset token is not provided or not linked to any user
+            - user email and password update message
+            - 403 if reset token is not provided
     """
     email = request.form.get("email")
     new_password = request.form.get("new_password")
