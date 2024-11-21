@@ -63,9 +63,9 @@ def users():
       - 400 if email is already registered
   """
   email = request.form.get("email")
-  passw = request.form.get("password")
+  password = request.form.get("password")
   try:
-    AUTH.register_user(email, passw)
+    AUTH.register_user(email, password)
     return jsonify({"email": email, "message": "user created"})
   except ValueError:
     return jsonify({"message": "email already registered"}), 400
@@ -78,11 +78,11 @@ def profile() -> str:
       - user email
       - 403 if session_id is not linked to a user
   """
-  s_id = request.cookies.get("session_id")
-  u = AUTH.get_user_from_session_id(s_id)
-  if not u:
+  session_id = request.cookies.get("session_id")
+  user = AUTH.get_user_from_session_id(session_id)
+  if not user:
     abort(403)
-  return jsonify({"email": u.email})
+  return jsonify({"email": user.email})
 
 
 @app.route("/reset_password", methods=["POST"])
@@ -96,11 +96,11 @@ def get_reset_password_token() -> str:
   """
   email = request.form.get("email")
   try:
-    r_token = AUTH.get_reset_password_token(email)
+    reset_token = AUTH.get_reset_password_token(email)
   except ValueError:
     abort(403)
 
-  return jsonify({"email": email, "reset_token": r_token})
+  return jsonify({"email": email, "reset_token": reset_token})
 
 
 @app.route("/reset_password", methods=["PUT"])
@@ -115,11 +115,11 @@ def update_password():
       - 403 if reset token is invalid
   """
   email = request.form.get("email")
-  new_passw = request.form.get("new_password")
-  r_token = request.form.get("reset_token")
+  new_password = request.form.get("new_password")
+  reset_token = request.form.get("reset_token")
 
   try:
-    AUTH.update_password(r_token, new_passw)
+    AUTH.update_password(reset_token, new_password)
   except ValueError:
     abort(403)
   return jsonify({"email": email, "message": "Password updated"})
