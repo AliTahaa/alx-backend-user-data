@@ -124,8 +124,8 @@ def _hash_password(password: str) -> bytes:
         Return:
             - hashed password
     """
-    e_passw = password.encode()
-    return bcrypt.hashpw(e_passw, bcrypt.gensalt())
+    e_pwd = password.encode()
+    return bcrypt.hashpw(e_pwd, bcrypt.gensalt())
 
 
 def _generate_uuid() -> str:
