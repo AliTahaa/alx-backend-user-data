@@ -108,12 +108,12 @@ class Auth:
             Return:
                 - None
         """
-        dbase = self._db
+        db = self._db
         try:
-            user = dbase.find_user_by(reset_token=reset_token)
+            user = db.find_user_by(reset_token=reset_token)
         except NoResultFound:
             raise ValueError
-        dbase.update_user(user.id, hashed_password=_hash_password(password),
+        db.update_user(user.id, hashed_password=_hash_password(password),
                        reset_token=None)
 
 
