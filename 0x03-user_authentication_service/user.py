@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Users model
-"""
+""" Users """
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -9,8 +7,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    """ Represents user object/table
-    """
+    """ Represents user """
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-E2E integration test module
-"""
+""" E2E integration test """
 from requests import get, put, post, delete
 
 
@@ -24,8 +22,7 @@ def register_user(email: str, password: str) -> None:
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
-    """ Wrong password test
-    """
+    """ Wrong password """
     request = post("http://0.0.0.0:5000/sessions",
                    data={'email': email, "password": password})
     assert request.status_code == 401
@@ -48,15 +45,13 @@ def log_in(email: str, password: str) -> str:
 
 
 def profile_unlogged() -> None:
-    """ Signed out user profile test
-    """
+    """ Signed out test """
     request = get("http://0.0.0.0:5000/profile")
     assert request.status_code == 403
 
 
 def profile_logged(session_id: str) -> None:
-    """ Signed in user profile test
-    """
+    """ Signed in test"""
     request = get("http://0.0.0.0:5000/profile",
                   cookies={"session_id": session_id})
     response = request.json()
@@ -65,8 +60,7 @@ def profile_logged(session_id: str) -> None:
 
 
 def log_out(session_id: str) -> None:
-    """ Logout test
-    """
+    """ Logout test """
     request = delete("http://0.0.0.0:5000/sessions",
                      cookies={"session_id": session_id},
                      allow_redirects=True)
@@ -93,8 +87,7 @@ def reset_password_token(email: str) -> str:
 
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
-    """ Password update test
-    """
+    """ Password test """
     request = put("http://0.0.0.0:5000/reset_password",
                   data={"email": email, "new_password":
                         new_password, "reset_token":
