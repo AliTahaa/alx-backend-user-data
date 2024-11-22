@@ -108,12 +108,12 @@ class Auth:
             Return:
                 - None
         """
-        db = self._db
+        dbase = self._db
         try:
-            user = db.find_user_by(reset_token=reset_token)
+            user = dbase.find_user_by(reset_token=reset_token)
         except NoResultFound:
             raise ValueError
-        db.update_user(user.id, hashed_password=_hash_password(password),
+        dbase.update_user(user.id, hashed_password=_hash_password(password),
                        reset_token=None)
 
 
@@ -124,8 +124,8 @@ def _hash_password(password: str) -> bytes:
         Return:
             - hashed password
     """
-    e_pwd = password.encode()
-    return bcrypt.hashpw(e_pwd, bcrypt.gensalt())
+    e_passw = password.encode()
+    return bcrypt.hashpw(e_passw, bcrypt.gensalt())
 
 
 def _generate_uuid() -> str:
